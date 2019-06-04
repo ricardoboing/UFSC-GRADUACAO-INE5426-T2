@@ -1,0 +1,38 @@
+1.1 Transforme a gramática X++ que está em LL(3) para uma gramática que está em LL(1) (chame tal gramática de LL1X++):
+
+Sabemos que uma gramática está em LL(1) se estiver fatorada à esquerda. Conforme haviamos visto na questão 2 da TarefaAS1, a gramática fatorada fica idêntica à original, exceto pelas produções de statement, que devem ser substituidas pelas novas:
+
+statement → (INT | STRING) IDENT (ABRCOL FECHCOL)* (VIRG IDENT ( ABRCOL FECHCOL)*)* PTVIR | IDENT statementaux |
+            readstat PTVIR | returnstat PTVIR | ifstat | forstat PTVIR | ABRCHAVE statlist FECHCHAVE | BREAK PTVIR | PTVIR;
+
+Também devemos adicionar as novas produções de statementaux:
+
+statementaux → IDENT (ABRCOL FECHCOL)* (VIRG IDENT ( ABRCOL FECHCOL)*)* PTVIR |
+               (ABRCOL expression FECHCOL | PONTO IDENT ( ABRPAR arglist FECHPAR )?)* ATR (expression | alocexpression) PTVIR;
+
+Após realizar estas modificações, a gramática foi adaptada para seguir a notação convencional, conforme requerido no enunciado. Para isto, foram criados mais alguns símbolos não terminais.
+
+Obs: os fragmentos não são considerados produções da gramática.
+
+
+
+
+
+
+Obs. 2: A gramática LL1X++ deve adotar a notação convencional para gramáticas, deve
+estar fatorada à esquerda e deve ser livre de recursão à esquerda.
+
+
+TODO: checar fatoracao à esquerda e se é livre de recursão à esquerda.
+
+
+
+1.2. Prove de que LL1X++ está em LL(1):
+
+
+TODO: formalmente ou informalmente? basta criar a tabela de parsing LL(1)?
+
+ 
+1.3. construa um analisador sintático para LL1X++:
+
+
