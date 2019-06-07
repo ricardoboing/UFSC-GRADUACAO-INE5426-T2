@@ -61,49 +61,44 @@ class bintree {
         return 0;
     }
 
-    int treeprint(int x){
+    int treeprint(int x) {
         int i;
-        if (left != null) then
+        if (left != null) then {
             i = left.treeprint(x+4);
+        }
         
-        for (i = 0; i < x; i = i + 1)
-            print(" ");
+        for (i = 0; i < x; i = i + 1) {
+            i = i;
+        };
         
-        print key.dia + "/" + key.mes + "/" + key.ano + "\n";
         
         if (right != null) then
-            i = right.treeprint(x+4)
+            i = right.treeprint(x+4);
     }
 
     int start() {
         bintree t;
         int i, d, m, a;
-        data w;
-        print "Digite o dia: ";
+        read w;
         read d;
-        print "Digite o mes: ";
         read m;
-        print "Digite o ano: ";
         read a;
 
         w = new data (d, m, a);
         t = new bintree(w);
 
         for (i = 0; i < 10; i = i + 1) {
-            print "Digite o dia: ";
             read d;
-            print "Digite o mes: ";
             read m;
-            print "Digite o ano: ";
             read a;
 
             w = new data (d, m, a);
             if (t.insert(w) == 0) then {
-                print "Elemento já existe\n";
+                i = i;
             }
             
             i = t.treeprint(0);
             return 0;
-        }
+        };
     }
 }
