@@ -34,7 +34,7 @@ printstat : PRINT expression;
 readstat : READ lvalue;
 returnstat : RETURN | RETURN expression;
 superstat : SUPER ABRPAR arglist FECHPAR;
-ifstat : IF ABRPAR expression FECHPAR statement | IF ABRPAR expression FECHPAR statement ELSE statement;
+ifstat : IF ABRPAR expression FECHPAR THEN statement | IF ABRPAR expression FECHPAR THEN statement ELSE statement;
 forstat : FOR ABRPAR forstataux PTVIR PTVIR forstataux FECHPAR statement |
 			FOR ABRPAR forstataux PTVIR expression PTVIR forstataux FECHPAR statement;
 forstataux: atribstat | /* epsilon */;
@@ -92,7 +92,7 @@ OPVEZES 		: '*';
 OPDIV 			: '/';
 OPMOD 			: '%';
 NULL 			: 'null';
-
+THEN			: 'then';
 
 // fragmentos sao usados para formar regras de algum token, mas nao sao considerados tokens per se.
 fragment LOWERCASE: [a-z];
