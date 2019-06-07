@@ -15,24 +15,95 @@ Após realizar estas modificações, a gramática foi adaptada para seguir a not
 Obs: os fragmentos não são considerados produções da gramática.
 
 
-
-
-
-
-Obs. 2: A gramática LL1X++ deve adotar a notação convencional para gramáticas, deve
-estar fatorada à esquerda e deve ser livre de recursão à esquerda.
-
-
-TODO: checar fatoracao à esquerda e se é livre de recursão à esquerda.
-
-
-
 1.2. Prove de que LL1X++ está em LL(1):
 
+Sejam:
+> A ∈ Vn
+> α, β ∈ V*
+> ⇒* indica uma derivação em zero ou mais passos.
 
-TODO: formalmente ou informalmente? basta criar a tabela de parsing LL(1)?
+Podemos provar por meio do teorema visto em sala de aula: a gramática é LL(1) se as seguintes condições forem satisfeitas:
+
+Para qualquer A → α|β :
+1.2.1: first(α) ∩ first(β) = φ
+1.2.2: α → ε ou β → ε, mas não ambos
+1.2.3 se α ⇒* ε ou β ⇒* ε, então first(A) ∩ follow(A) = φ
+
+Computamos os conjuntos first e follow para todas as produções da gramática:
+
+
+first(classbody) = {ABRCHAVE}
+first(intstringident) = {INT, STRING, IDENT} 
+first(vardecl) = {INT, STRING, IDENT} 
+first(cols) = {ABRCOL, ε}
+first(vardeclaux) = {VIRG, ε}
+first(constructdecl) = {CONSTRUCTOR}
+first(methoddecl) = {INT, STRING, IDENT} 
+first(methodbody) = {ABRPAR}
+first(paramlist) =  {INT, STRING, IDENT, ε}
+first(paramlistaux) = {VIRG, ε}
+first(intstring) = {INT, STRING}
+first(virgidentcols) = {VIRG, ε}
+first(statementaux2) = {ABRCOL, PONTO, ε}
+first(statementaux) = {IDENT, ABRCOL, PONTO, ATR}
+first(statementaux3) = {IDENT}
+first(printstat) = {PRINT}
+first(readstat) = {READ}
+
+
+returnstat : RETURN | RETURN expression;
+superstat : SUPER ABRPAR arglist FECHPAR;
+ifstat : IF ABRPAR expression FECHPAR THEN statement | IF ABRPAR expression FECHPAR THEN statement ELSE statement;
+forstat : FOR ABRPAR forstataux PTVIR PTVIR forstataux FECHPAR statement |
+			FOR ABRPAR forstataux PTVIR expression PTVIR forstataux FECHPAR statement;
+forstataux: atribstat | /* epsilon */;
+statlist : statement | statement statlist;
+lvalue : IDENT lvalueaux;
+lvalueaux: ABRCOL expression FECHCOL | PONTO IDENT | PONTO IDENT ABRPAR arglist FECHPAR lvalueaux | /* epsilon */;
+alocexpression : NEW IDENT ABRPAR arglist FECHPAR | NEW intstringident alocexpression2;
+alocexpression2: ABRCOL expression FECHCOL alocexpression2 | ABRCOL expression FECHCOL;
+expression : numexpression | numexpression expresionaux numexpression;
+expresionaux: MENOR | MAIOR | MENORIG | MAIORIG | IGUAL | DIFER;
+numexpression : term numexpressionaux;
+numexpressionaux: OPMAIS term numexpressionaux | OPMENOS term numexpressionaux | /* epsilon */;
+term : unaryexpr  termaux;
+termaux: OPVEZES unaryexpr termaux | OPDIV unaryexpr termaux | OPMOD unaryexpr termaux | /* epsilon */;
+unaryexpr : OPMAIS factor | OPMENOS factor | factor;
+factor : INTCONSTANT | STRINGCONSTANT | NULL | lvalue | ABRPAR expression FECHPAR;
+arglist : expression arglistaux | /* epsilon */;
+arglistaux: VIRG expression arglistaux | /* epsilon */;
+
+program : classlist | /* epsilon */;
+classlist : classdecl classlist | classdecl;
+classdecl : CLASS IDENT classbody | CLASS IDENT EXTENDS IDENT classbody;
+classbodyaux : vardecl PTVIR classbodyaux  | /* epsilon */; 
+classbodyaux2: constructdecl classbodyaux2 | /* epsilon */;
+classbodyaux3: methoddecl classbodyaux3 | /* epsilon */;
+statement : intstring IDENT cols virgidentcols PTVIR | IDENT statementaux |
+            readstat PTVIR | returnstat PTVIR | ifstat | forstat PTVIR | ABRCHAVE statlist FECHCHAVE | BREAK PTVIR | PTVIR;
+statementaux4: ABRPAR arglist FECHPAR statementaux2 |statementaux2;
+expralocexpr: expression | alocexpression;
+atribstat : lvalue ATR expralocexpr;
+
+
+
+
+
+
+
+
+
+
+
+
+Agora, verificamos as condições 1.2.1, 1.2.2 e 1.2.3 para todas as produções da gramática:
+
+1.2.1: first(α) ∩ first(β) = φ:
+
+
+
+pode testar com a tabela, desde que seja livre rec À esquerda e fatorada à esquerda
+
 
  
 1.3. construa um analisador sintático para LL1X++:
-
-
