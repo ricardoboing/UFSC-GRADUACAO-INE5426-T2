@@ -22,7 +22,7 @@ public class xcc {
 
 		ParseTree arvore = parser.program();
 
-		/*
+		
 
 		Vocabulary vocabularioAntlr = lexer.getVocabulary();
 		
@@ -35,10 +35,10 @@ public class xcc {
 		
 
 		try {
-			arquivoListaDeToken = new FileWriter(new File(diretorio+"ListaDeToken.txt"));
-			arquivoTabelaDeSimbolo = new FileWriter(new File(diretorio+"TabelaDeSimbolo.txt"));
+			arquivoListaDeToken = new FileWriter(new File(diretorio+"Xcc_Lista_De_Token.txt"));
+			arquivoTabelaDeSimbolo = new FileWriter(new File(diretorio+"Xcc_Tabela_De_Simbolo.txt"));
 			
-			System.out.println("-------------------- LISTA DE TOKENS --------------------");
+			//System.out.println("-------------------- LISTA DE TOKENS --------------------");
 			for (int c = 0; c < listTokens.size(); c++) {
 				Token token = listTokens.get(c);
 				
@@ -47,19 +47,19 @@ public class xcc {
 					nomeDoToken = vocabularioAntlr.getSymbolicName(token.getType());
 					
 					arquivoListaDeToken.write(nomeDoToken+"\n");
-					System.out.println(nomeDoToken);
+					//System.out.println(nomeDoToken);
 					
 					tabelaDeSimbolo.addLexema(token);
 				}
 			}
-			System.out.println();
+			//System.out.println();
 			
 			String tabelaDeSimboloToString;
 			tabelaDeSimboloToString = tabelaDeSimbolo.getToString();
 			
 			arquivoTabelaDeSimbolo.write(tabelaDeSimboloToString);
-			System.out.println("-------------------- TABELA DE SIMBOLOS --------------------");
-			System.out.println(tabelaDeSimboloToString);
+			//System.out.println("-------------------- TABELA DE SIMBOLOS --------------------");
+			//System.out.println(tabelaDeSimboloToString);
 			
 			arquivoListaDeToken.close();
 			arquivoTabelaDeSimbolo.close();
@@ -67,7 +67,7 @@ public class xcc {
 		} catch (IOException e) {
 		} catch (Exception e) {}
 
-		System.out.println("Update file ListaDeToken.txt");
-		System.out.println("Update file TabelaDeSimbolos.txt");*/
+		System.out.println("Update file Xcc_Lista_De_Token.txt");
+		System.out.println("Update file Xcc_Tabela_De_Simbolos.txt");
 	}
 }

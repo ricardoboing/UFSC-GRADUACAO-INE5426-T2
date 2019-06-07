@@ -12,19 +12,23 @@ create:
 	@echo "Gerando compilador xcc..."
 	@java -jar $(_ANTLR) Xcc.g4
 	@javac -classpath $(_ANTLR) $(_FILES)
-	@echo "Sucesso!"
 	@rm Xcc*.java
 	@rm *.tokens
 	@rm *.interp
+	@touch Xcc_Tabela_De_Simbolos.txt
+	@touch Xcc_Lista_De_Tokens.txt
+	@echo "Sucesso!"
 
 create_teste:
 	@echo "Gerando compilador xcc..."
 	@java -jar $(_ANTLR) Xcc.g4
 	@javac -classpath $(_ANTLR) $(_FILES)
-	@echo "Sucesso!"
 	@rm *.tokens
 	@rm *.class
 	@rm *.interp
+	@echo "Sucesso!"
 
 clean:
 	@rm *.class
+	@rm Xcc*.txt
+	@echo "Sucesso!"
