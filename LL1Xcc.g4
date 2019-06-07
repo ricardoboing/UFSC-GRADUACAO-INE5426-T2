@@ -5,7 +5,8 @@ grammar LL1Xcc;
 
 // producoes para o analisador sintático (parser):
 program : classlist | /* epsilon */;
-classlist : classdecl classlist | classdecl;
+classlist : classdecl classlistaux; 
+classlistaux : classlist | /* epsilon */;
 classdecl : CLASS IDENT classbody | CLASS IDENT EXTENDS IDENT classbody;
 classbody : ABRCHAVE classbodyaux classbodyaux2 classbodyaux3 FECHCHAVE |
 			ABRCHAVE classlist classbodyaux classbodyaux2 classbodyaux3 FECHCHAVE; 
