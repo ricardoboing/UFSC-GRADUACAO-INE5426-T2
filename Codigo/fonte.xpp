@@ -6,8 +6,6 @@ class bintree {
             ano = 1900;
             mes = 1;
             dia = 1;
-
-            print "";
         }
 
         constructor(int d, int m, int a) {
@@ -16,7 +14,7 @@ class bintree {
             ano = a;
         }
 
-        int compara(data x) {
+        int compara(int x) {
             if (ano < x.ano) then
                 return -1;
             if (ano > x.ano) then
@@ -32,16 +30,16 @@ class bintree {
         }
     }
 
-    data key;
-    bintree left, right;
+    int key;
+    int left, right;
 
-    constructor(data x) {
+    constructor(int x) {
         key = x;
         left = null;
         right = nul;
     }
 
-    int insert(data k) {
+    int insert(int k) {
         int x;
         x = k.compara(key);
 

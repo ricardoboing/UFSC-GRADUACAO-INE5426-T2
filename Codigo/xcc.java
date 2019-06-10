@@ -35,8 +35,8 @@ public class xcc {
 		
 
 		try {
-			arquivoListaDeToken = new FileWriter(new File(diretorio+"Xcc_Lista_De_Token.txt"));
-			arquivoTabelaDeSimbolo = new FileWriter(new File(diretorio+"Xcc_Tabela_De_Simbolo.txt"));
+			arquivoListaDeToken = new FileWriter(new File(diretorio+"Xcc_Lista_De_Tokens.txt"));
+			arquivoTabelaDeSimbolo = new FileWriter(new File(diretorio+"Xcc_Tabela_De_Simbolos.txt"));
 			
 			//System.out.println("-------------------- LISTA DE TOKENS --------------------");
 			for (int c = 0; c < listTokens.size(); c++) {
@@ -67,7 +67,7 @@ public class xcc {
 		} catch (IOException e) {
 		} catch (Exception e) {}
 
-		System.out.println("Update file Xcc_Lista_De_Token.txt");
+		System.out.println("Update file Xcc_Lista_De_Tokens.txt");
 		System.out.println("Update file Xcc_Tabela_De_Simbolos.txt");
 	}
 }

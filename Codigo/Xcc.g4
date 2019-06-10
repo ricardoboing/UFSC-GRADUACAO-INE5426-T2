@@ -4,55 +4,167 @@
 grammar Xcc;
 
 // producoes para o analisador sintático (parser):
-program : classlist | /* epsilon */;
-classlist : classdecl classlist | classdecl;
-classdecl : CLASS IDENT classbody | CLASS IDENT EXTENDS IDENT classbody;
-classbody : ABRCHAVE classbodyaux classbodyaux2 classbodyaux3 FECHCHAVE |
-			ABRCHAVE (classlist)? classbodyaux classbodyaux2 classbodyaux3 FECHCHAVE; 
-classbodyaux : vardecl PTVIR classbodyaux  | /* epsilon */; 
-classbodyaux2: constructdecl classbodyaux2 | /* epsilon */;
-classbodyaux3: methoddecl classbodyaux3 | /* epsilon */;
-vardecl : intstringident  IDENT cols vardeclaux;
-intstringident : INT | STRING | IDENT;
-cols: ABRCOL FECHCOL cols | /* epsilon */;
-vardeclaux: VIRG IDENT cols vardeclaux | /* epsilon */; 
-constructdecl : CONSTRUCTOR methodbody;
-methoddecl : intstringident cols IDENT methodbody;
-methodbody : ABRPAR paramlist FECHPAR statement;
-paramlist : intstringident IDENT cols paramlistaux | /* epsilon */;
-paramlistaux: VIRG intstringident IDENT cols paramlistaux | /* epsilon */;
-statement : intstring IDENT cols virgidentcols PTVIR | IDENT statementaux |
-            readstat PTVIR | returnstat PTVIR | ifstat | forstat PTVIR | ABRCHAVE statlist FECHCHAVE | BREAK PTVIR | PTVIR;
-intstring : INT | STRING;
-virgidentcols : VIRG IDENT cols virgidentcols | /* epsilon */;
-statementaux : IDENT cols virgidentcols PTVIR |
-               statementaux2 ATR expralocexpr PTVIR;
-statementaux2: ABRCOL expression FECHCOL statementaux2 | PONTO IDENT ABRPAR arglist FECHPAR statementaux2 | PONTO IDENT statementaux2 | /* epsilon */;
-expralocexpr: expression | alocexpression;
-atribstat : lvalue ATR expralocexpr;
-printstat : PRINT expression;
-readstat : READ lvalue;
-returnstat : RETURN | RETURN expression;
-superstat : SUPER ABRPAR arglist FECHPAR;
-ifstat : IF ABRPAR expression FECHPAR THEN statement | IF ABRPAR expression FECHPAR THEN statement ELSE statement;
-forstat : FOR ABRPAR forstataux PTVIR PTVIR forstataux FECHPAR statement |
-			FOR ABRPAR forstataux PTVIR expression PTVIR forstataux FECHPAR statement;
-forstataux: atribstat | /* epsilon */;
-statlist : statement | statement statlist;
-lvalue : IDENT lvalueaux;
-lvalueaux: ABRCOL expression FECHCOL | PONTO IDENT | PONTO IDENT ABRPAR arglist FECHPAR lvalueaux | /* epsilon */;
-alocexpression : NEW IDENT ABRPAR arglist FECHPAR | NEW intstringident alocexpression2;
-alocexpression2: ABRCOL expression FECHCOL alocexpression2 | ABRCOL expression FECHCOL;
-expression : numexpression | numexpression expresionaux numexpression;
-expresionaux: MENOR | MAIOR | MENORIG | MAIORIG | IGUAL | DIFER;
-numexpression : term numexpressionaux;
-numexpressionaux: OPMAIS term numexpressionaux | OPMENOS term numexpressionaux | /* epsilon */;
-term : unaryexpr  termaux;
-termaux: OPVEZES unaryexpr termaux | OPDIV unaryexpr termaux | OPMOD unaryexpr termaux | /* epsilon */;
-unaryexpr : OPMAIS factor | OPMENOS factor | factor;
-factor : INTCONSTANT | STRINGCONSTANT | NULL | lvalue | ABRPAR expression FECHPAR;
-arglist : expression arglistaux | /* epsilon */;
-arglistaux: VIRG expression arglistaux | /* epsilon */;
+program 		: classlist
+				| /* epsilon */;
+
+classlist 		: classdecl classlist2;
+
+classlist2 		: classlist
+				| /* epsilon */;
+
+classdecl 		: CLASS IDENT classbody
+				| CLASS IDENT EXTENDS IDENT classbody;
+
+classbody 		: ABRCHAVE classbody1 classbody2 classbody3 FECHCHAVE
+				| ABRCHAVE classlist classbody1 classbody2 classbody3 FECHCHAVE; 
+
+classbody1 		: vardecl PTVIR classbody1
+				| /* epsilon */; 
+
+classbody2		: constructdecl classbody2
+				| /* epsilon */;
+
+classbody3 		: methoddecl classbody3
+				| /* epsilon */;
+
+vardecl 		: intstringident IDENT cols vardeclaux;
+
+intstringident 	: INT
+				| STRING
+				| IDENT;
+
+cols 			: ABRCOL FECHCOL cols
+				| /* epsilon */;
+
+vardeclaux 		: VIRG IDENT cols vardeclaux
+				| /* epsilon */; 
+
+constructdecl 	: CONSTRUCTOR methodbody;
+methoddecl 		: intstringident cols IDENT methodbody;
+methodbody 		: ABRPAR paramlist FECHPAR statement;
+
+paramlist 		: intstringident IDENT cols paramlistaux
+				| /* epsilon */;
+
+paramlistaux 	: VIRG intstringident IDENT cols paramlistaux
+				| /* epsilon */;
+
+statement 		: intstring IDENT cols virgidentcols PTVIR
+				| IDENT statement2
+				| readstat PTVIR
+				| returnstat PTVIR
+				| ifstat
+				| forstat PTVIR
+				| ABRCHAVE statlist FECHCHAVE
+				| BREAK PTVIR
+				| PTVIR;
+
+intstring 		: INT
+				| STRING;
+
+virgidentcols 	: VIRG IDENT cols virgidentcols
+				| /* epsilon */;
+
+statement2 		: IDENT cols virgidentcols PTVIR
+				| statement3 ATR expralocexpr PTVIR;
+
+statement3		: ABRCOL expression FECHCOL statement3
+				| PONTO IDENT ABRPAR arglist FECHPAR statement3
+				| PONTO IDENT statement3
+				| /* epsilon */;
+
+expralocexpr	: expression
+				| alocexpression;
+
+atribstat 		: lvalue ATR expralocexpr;
+printstat 		: PRINT expression;
+readstat 		: READ lvalue;
+
+returnstat 		: RETURN
+				| RETURN expression;
+
+superstat 		: SUPER ABRPAR arglist FECHPAR;
+
+ifstat 			: IF ABRPAR expression FECHPAR THEN statement
+				| IF ABRPAR expression FECHPAR THEN statement ELSE statement;
+
+forstat 		: FOR ABRPAR forstataux PTVIR PTVIR forstataux FECHPAR statement
+				| FOR ABRPAR forstataux PTVIR expression PTVIR forstataux FECHPAR statement;
+
+forstataux 		: atribstat
+				| /* epsilon */;
+
+statlist 		: statement
+				| statement statlist;
+
+lvalue 			: IDENT lvalue2;
+
+lvalue2 		: ABRCOL expression FECHCOL
+				| PONTO IDENT
+				| PONTO IDENT ABRPAR arglist FECHPAR lvalue2
+				| /* epsilon */;
+
+alocexpression 	: NEW IDENT ABRPAR arglist FECHPAR
+				| NEW intstringident alocexpression2;
+
+alocexpression2 : ABRCOL expression FECHCOL alocexpression2
+				| ABRCOL expression FECHCOL;
+
+expression 		: numexpression
+				| numexpression expression2 numexpression;
+
+expression2 	: MENOR
+				| MAIOR
+				| MENORIG
+				| MAIORIG
+				| IGUAL
+				| DIFER;
+
+numexpression 	: term numexpression2;
+
+numexpression2 	: OPMAIS term numexpression2
+				| OPMENOS term numexpression2
+				| /* epsilon */;
+
+term 			: unaryexpr termaux;
+
+termaux 		: OPVEZES unaryexpr termaux
+				| OPDIV unaryexpr termaux
+				| OPMOD unaryexpr termaux
+				| /* epsilon */;
+
+unaryexpr 		: OPMAIS factor
+				| OPMENOS factor
+				| factor;
+
+factor 			: INTCONSTANT
+				| STRINGCONSTANT
+				| NULL
+				| lvalue
+				| ABRPAR expression FECHPAR;
+
+arglist 		: expression arglistaux
+				| /* epsilon */;
+
+arglistaux 		: VIRG expression arglistaux
+				| /* epsilon */;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // regras do analisador léxico, no formato TOKEN : lexema;
