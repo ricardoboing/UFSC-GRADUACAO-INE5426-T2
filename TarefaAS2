@@ -2,12 +2,12 @@
 
 Sabemos que uma gramática está em LL(1) se estiver fatorada à esquerda. Conforme haviamos visto na questão 2 da TarefaAS1, a gramática fatorada fica idêntica à original, exceto pelas produções de statement, que devem ser substituidas pelas novas:
 
-statement → (INT | STRING) IDENT (ABRCOL FECHCOL)* (VIRG IDENT ( ABRCOL FECHCOL)*)* PTVIR | IDENT statementaux |
+statement → (INT | STRING) IDENT (ABRCOL FECHCOL)* (VIRG IDENT ( ABRCOL FECHCOL)*)* PTVIR | IDENT statement1 |
             readstat PTVIR | returnstat PTVIR | ifstat | forstat PTVIR | ABRCHAVE statlist FECHCHAVE | BREAK PTVIR | PTVIR;
 
-Também devemos adicionar as novas produções de statementaux:
+Também devemos adicionar as novas produções de statement1:
 
-statementaux → IDENT (ABRCOL FECHCOL)* (VIRG IDENT ( ABRCOL FECHCOL)*)* PTVIR |
+statement1 → IDENT (ABRCOL FECHCOL)* (VIRG IDENT ( ABRCOL FECHCOL)*)* PTVIR |
                (ABRCOL expression FECHCOL | PONTO IDENT ( ABRPAR arglist FECHPAR )?)* ATR (expression | alocexpression) PTVIR;
 
 Após realizar estas modificações, a gramática foi adaptada para seguir a notação convencional, conforme requerido no enunciado. Para isto, foram criados mais alguns símbolos não terminais.
@@ -35,23 +35,23 @@ first(classbody) = {ABRCHAVE}
 first(intstringident) = {INT, STRING, IDENT} 
 first(vardecl) = {INT, STRING, IDENT} 
 first(cols) = {ABRCOL, ε}
-first(vardeclaux) = {VIRG, ε}
+first(vardecl1) = {VIRG, ε}
 first(constructdecl) = {CONSTRUCTOR}
 first(methoddecl) = {INT, STRING, IDENT} 
 first(methodbody) = {ABRPAR}
 first(paramlist) =  {INT, STRING, IDENT, ε}
-first(paramlistaux) = {VIRG, ε}
+first(paramlist1) = {VIRG, ε}
 first(intstring) = {INT, STRING}
 first(virgidentcols) = {VIRG, ε}
-first(statementaux2) = {ABRCOL, PONTO, ε}
-first(statementaux) = {IDENT, ABRCOL, PONTO, ATR}
-first(statementaux3) = {IDENT}
+first(statement2) = {ABRCOL, PONTO, ε}
+first(statement1) = {IDENT, ABRCOL, PONTO, ATR}
+first(statement3) = {IDENT}
 first(printstat) = {PRINT}
 first(readstat) = {READ}
 first(returnstat) = {RETURN}
 first(superstat) = {SUPER}
 first(ifstat) = {IF}
-first(ifstataux) = {ELSE, ε}
+first(ifstat1) = {ELSE, ε}
 first(forstat) = {FOR}
 first(lvalue) = {IDENT}
 first(lvalue2) = {ABRCOL, PONTO, ε}
@@ -63,20 +63,20 @@ first(alocexpression4) = {ABRCOL, ε}
 first(alocexpression5) = {ABRPAR, ABRCOL}
 first(expression2) = {MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER}
 first(expresion3) = {MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, ε}
-first(numexpressionaux) = {OPMAIS, OPMENOS, ε}
-first(termaux) = {OPVEZES, OPDIV, OPMOD, ε}
+first(numexpression1) = {OPMAIS, OPMENOS, ε}
+first(term1) = {OPVEZES, OPDIV, OPMOD, ε}
 first(factor) = {INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR}
-first(arglistaux) = {VIRG, ε}
+first(arglist1) = {VIRG, ε}
 first(classdecl) = {CLASS}
-first(classbodyaux) = {INT, STRING, IDENT, ε}
-first(classbodyaux2) = {CONSTRUCTOR, ε}
-first(classbodyaux3) = {INT, STRING, IDENT, ε}
+first(classbody1) = {INT, STRING, IDENT, ε}
+first(classbody2) = {CONSTRUCTOR, ε}
+first(classbody3) = {INT, STRING, IDENT, ε}
 first(statement) = {INT, STRING, IDENT, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR}
-first(statementaux4) = {ABRPAR, ABRCOL, PONTO, ε}
+first(statement4) = {ABRPAR, ABRCOL, PONTO, ε}
 first(atribstat) = {IDENT}
-first(forstataux) = {IDENT, ε}
+first(forstat1) = {IDENT, ε}
 first(statlist) = {INT, STRING, IDENT, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR}
-first(statlistaux) = {INT, STRING, IDENT, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR, ε}
+first(statlist1) = {INT, STRING, IDENT, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR, ε}
 first(unaryexpr) = {OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR}
 first(classlist) = {CLASS}
 first(classlist2) = {CLASS, ε}
@@ -87,7 +87,7 @@ first(numexpression) = {OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDEN
 first(expression) = {OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR}
 first(arglist) = {OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR, ε}
 first(expralocexpr) = {OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR, NEW}
-first(returnstataux) = {OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR, ε}
+first(returnstat1) = {OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR, ε}
 first(expression) = {PTVIR, OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR}
 
 
