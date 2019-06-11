@@ -29,8 +29,7 @@ Para qualquer A → α|β :
 1.2.2: α → ε ou β → ε, mas não ambos
 1.2.3 se α ⇒* ε ou β ⇒* ε, então first(A) ∩ follow(A) = φ
 
-Computamos os conjuntos first e follow para todas as produções da gramática:
-
+Computamos os conjuntos first e follow para todas as produções de todos os Vn da gramática:
 
 first(classbody) = {ABRCHAVE}
 first(intstringident) = {INT, STRING, IDENT} 
@@ -49,41 +48,50 @@ first(statementaux) = {IDENT, ABRCOL, PONTO, ATR}
 first(statementaux3) = {IDENT}
 first(printstat) = {PRINT}
 first(readstat) = {READ}
+first(returnstat) = {RETURN}
+first(superstat) = {SUPER}
+first(ifstat) = {IF}
+first(ifstataux) = {ELSE, ε}
+first(forstat) = {FOR}
+first(lvalue) = {IDENT}
+first(lvalue2) = {ABRCOL, PONTO, ε}
+first(lvalue3) = {ABRPAR, ε}
+first(alocexpression) = {NEW}
+first(alocexpression2) = {ABRCOL}
+first(alocexpression3) = {IDENT, INT, STRING}
+first(alocexpression4) = {ABRCOL, ε}
+first(alocexpression5) = {ABRPAR, ABRCOL}
+first(expression2) = {MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER}
+first(expresion3) = {MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, ε}
+first(numexpressionaux) = {OPMAIS, OPMENOS, ε}
+first(termaux) = {OPVEZES, OPDIV, OPMOD, ε}
+first(factor) = {INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR}
+first(arglistaux) = {VIRG, ε}
+first(classdecl) = {CLASS}
+first(classbodyaux) = {INT, STRING, IDENT, ε}
+first(classbodyaux2) = {CONSTRUCTOR, ε}
+first(classbodyaux3) = {INT, STRING, IDENT, ε}
+first(statement) = {INT, STRING, IDENT, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR}
+first(statementaux4) = {ABRPAR, ABRCOL, PONTO, ε}
+first(atribstat) = {IDENT}
+first(forstataux) = {IDENT, ε}
+first(statlist) = {INT, STRING, IDENT, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR}
+first(statlistaux) = {INT, STRING, IDENT, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR, ε}
+first(unaryexpr) = {OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR}
+first(classlist) = {CLASS}
+first(classlist2) = {CLASS, ε}
+first(classdecl2) = {ABRCHAVE, EXTENDS}
+first(term) = {OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR}
+first(program) = {CLASS, ε}
+first(numexpression) = {OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR}
+first(expression) = {OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR}
+first(arglist) = {OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR, ε}
+first(expralocexpr) = {OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR, NEW}
+first(returnstataux) = {OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR, ε}
+first(expression) = {PTVIR, OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR}
 
 
-returnstat : RETURN | RETURN expression;
-superstat : SUPER ABRPAR arglist FECHPAR;
-ifstat : IF ABRPAR expression FECHPAR THEN statement | IF ABRPAR expression FECHPAR THEN statement ELSE statement;
-forstat : FOR ABRPAR forstataux PTVIR PTVIR forstataux FECHPAR statement |
-			FOR ABRPAR forstataux PTVIR expression PTVIR forstataux FECHPAR statement;
-forstataux: atribstat | /* epsilon */;
-statlist : statement | statement statlist;
-lvalue : IDENT lvalueaux;
-lvalueaux: ABRCOL expression FECHCOL | PONTO IDENT | PONTO IDENT ABRPAR arglist FECHPAR lvalueaux | /* epsilon */;
-alocexpression : NEW IDENT ABRPAR arglist FECHPAR | NEW intstringident alocexpression2;
-alocexpression2: ABRCOL expression FECHCOL alocexpression2 | ABRCOL expression FECHCOL;
-expression : numexpression | numexpression expresionaux numexpression;
-expresionaux: MENOR | MAIOR | MENORIG | MAIORIG | IGUAL | DIFER;
-numexpression : term numexpressionaux;
-numexpressionaux: OPMAIS term numexpressionaux | OPMENOS term numexpressionaux | /* epsilon */;
-term : unaryexpr  termaux;
-termaux: OPVEZES unaryexpr termaux | OPDIV unaryexpr termaux | OPMOD unaryexpr termaux | /* epsilon */;
-unaryexpr : OPMAIS factor | OPMENOS factor | factor;
-factor : INTCONSTANT | STRINGCONSTANT | NULL | lvalue | ABRPAR expression FECHPAR;
-arglist : expression arglistaux | /* epsilon */;
-arglistaux: VIRG expression arglistaux | /* epsilon */;
 
-program : classlist | /* epsilon */;
-classlist : classdecl classlist | classdecl;
-classdecl : CLASS IDENT classbody | CLASS IDENT EXTENDS IDENT classbody;
-classbodyaux : vardecl PTVIR classbodyaux  | /* epsilon */; 
-classbodyaux2: constructdecl classbodyaux2 | /* epsilon */;
-classbodyaux3: methoddecl classbodyaux3 | /* epsilon */;
-statement : intstring IDENT cols virgidentcols PTVIR | IDENT statementaux |
-            readstat PTVIR | returnstat PTVIR | ifstat | forstat PTVIR | ABRCHAVE statlist FECHCHAVE | BREAK PTVIR | PTVIR;
-statementaux4: ABRPAR arglist FECHPAR statementaux2 |statementaux2;
-expralocexpr: expression | alocexpression;
-atribstat : lvalue ATR expralocexpr;
 
 
 
