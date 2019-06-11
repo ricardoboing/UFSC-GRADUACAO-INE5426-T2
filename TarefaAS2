@@ -98,7 +98,7 @@ Agora, verificamos as condições 1.2.1, 1.2.2 e 1.2.3 para todas as produções
 Como podemos ver nos conjuntos first computados acima, não existem itens repetidos em nenhum first(A), portanto, esta condição é cumprida.
 
 1.2.2: α → ε ou β → ε, mas não ambos
-Esta condição também é cumprida pelo mesmo motivo da condição 1.2.1. Cada .. somente tem epsilon 1x
+Esta condição também é cumprida pelo mesmo motivo da condição 1.2.1: Cada conjunto first(A) somente tem epsilon uma vez.
 
 1.2.3 se α ⇒* ε ou β ⇒* ε, então first(A) ∩ follow(A) = φ
 
