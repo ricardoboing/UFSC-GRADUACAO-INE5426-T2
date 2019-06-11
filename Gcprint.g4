@@ -29,7 +29,7 @@ classbody2		: constructdecl classbody2
 classbody3 		: methoddecl classbody3
 				| /* epsilon */;
 
-vardecl 		: intstringident IDENT cols vardeclaux;
+vardecl 		: intstringident IDENT cols vardecl1;
 
 intstringident 	: INT
 				| STRING
@@ -38,17 +38,17 @@ intstringident 	: INT
 cols 			: ABRCOL FECHCOL cols
 				| /* epsilon */;
 
-vardeclaux 		: VIRG IDENT cols vardeclaux
-				| /* epsilon */; 
+vardecl1 		: VIRG IDENT cols vardecl1
+				| /* epsilon */;
 
 constructdecl 	: CONSTRUCTOR methodbody;
 methoddecl 		: intstringident cols IDENT methodbody;
 methodbody 		: ABRPAR paramlist FECHPAR statement;
 
-paramlist 		: intstringident IDENT cols paramlistaux
+paramlist 		: intstringident IDENT cols paramlist1
 				| /* epsilon */;
 
-paramlistaux 	: VIRG intstringident IDENT cols paramlistaux
+paramlist1 	: VIRG intstringident IDENT cols paramlist1
 				| /* epsilon */;
 
 statement 		: intstring IDENT cols virgidentcols PTVIR
@@ -83,29 +83,29 @@ atribstat 		: lvalue ATR expralocexpr;
 printstat 		: PRINT expression;
 readstat 		: READ lvalue;
 
-returnstat 		: RETURN returnstataux; 
+returnstat 		: RETURN returnstat1; 
 
-returnstataux 	: expression
+returnstat1 	: expression
 				| /* epsilon */;
 
 superstat 		: SUPER ABRPAR arglist FECHPAR;
 
-ifstat 			: IF ABRPAR expression FECHPAR THEN statement ifstataux;
+ifstat 			: IF ABRPAR expression FECHPAR THEN statement ifstat1;
 				
-ifstataux		: ELSE statement 
+ifstat1			: ELSE statement 
 				| /* epsilon */;
 
-forstat 		: FOR ABRPAR forstataux PTVIR forstataux2;
+forstat 		: FOR ABRPAR forstat1 PTVIR forstat2;
 
-forstataux 		: atribstat
+forstat1 		: atribstat
 				| /* epsilon */;
 
-forstataux2 	: PTVIR forstataux FECHPAR statement 
-				| expression PTVIR forstataux FECHPAR statement;
+forstat2 		: PTVIR forstat1 FECHPAR statement 
+				| expression PTVIR forstat1 FECHPAR statement;
 
-statlist 		: statement statlistaux;
+statlist 		: statement statlist1;
 
-statlistaux 	: statlist 
+statlist1 		: statlist 
 				| /* epsilon */;
 
 
@@ -148,11 +148,11 @@ numexpression2 	: OPMAIS term numexpression2
 				| OPMENOS term numexpression2
 				| /* epsilon */;
 
-term 			: unaryexpr termaux;
+term 			: unaryexpr term1;
 
-termaux 		: OPVEZES unaryexpr termaux
-				| OPDIV unaryexpr termaux
-				| OPMOD unaryexpr termaux
+term1 			: OPVEZES unaryexpr term1
+				| OPDIV unaryexpr term1
+				| OPMOD unaryexpr term1
 				| /* epsilon */;
 
 unaryexpr 		: OPMAIS factor
@@ -165,10 +165,10 @@ factor 			: INTCONSTANT
 				| lvalue
 				| ABRPAR expression FECHPAR;
 
-arglist 		: expression arglistaux
+arglist 		: expression arglist1
 				| /* epsilon */;
 
-arglistaux 		: VIRG expression arglistaux
+arglist1 		: VIRG expression arglist1
 				| /* epsilon */;
 
 
