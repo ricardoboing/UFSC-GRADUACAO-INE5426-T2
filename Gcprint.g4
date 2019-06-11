@@ -12,8 +12,10 @@ classlist 		: classdecl classlist2;
 classlist2 		: classlist
 				| /* epsilon */;
 
-classdecl 		: CLASS IDENT classbody
-				| CLASS IDENT EXTENDS IDENT classbody;
+classdecl 		: CLASS IDENT classdecl2;
+
+classdecl2		: classbody 
+				| EXTENDS IDENT classbody;
 
 classbody 		: ABRCHAVE classbody1 classbody2 classbody3 FECHCHAVE
 				| ABRCHAVE classlist classbody1 classbody2 classbody3 FECHCHAVE; 
@@ -81,38 +83,55 @@ atribstat 		: lvalue ATR expralocexpr;
 printstat 		: PRINT expression;
 readstat 		: READ lvalue;
 
-returnstat 		: RETURN
-				| RETURN expression;
+returnstat 		: RETURN returnstataux; 
+
+returnstataux 	: expression
+				| /* epsilon */;
 
 superstat 		: SUPER ABRPAR arglist FECHPAR;
 
-ifstat 			: IF ABRPAR expression FECHPAR THEN statement
-				| IF ABRPAR expression FECHPAR THEN statement ELSE statement;
+ifstat 			: IF ABRPAR expression FECHPAR THEN statement ifstataux;
+				
+ifstataux		: ELSE statement 
+				| /* epsilon */;
 
-forstat 		: FOR ABRPAR forstataux PTVIR PTVIR forstataux FECHPAR statement
-				| FOR ABRPAR forstataux PTVIR expression PTVIR forstataux FECHPAR statement;
+forstat 		: FOR ABRPAR forstataux PTVIR forstataux2;
 
 forstataux 		: atribstat
 				| /* epsilon */;
 
-statlist 		: statement
-				| statement statlist;
+forstataux2 	: PTVIR forstataux FECHPAR statement 
+				| expression PTVIR forstataux FECHPAR statement;
+
+statlist 		: statement statlistaux;
+
+statlistaux 	: statlist 
+				| /* epsilon */;
+
 
 lvalue 			: IDENT lvalue2;
 
 lvalue2 		: ABRCOL expression FECHCOL
-				| PONTO IDENT
-				| PONTO IDENT ABRPAR arglist FECHPAR lvalue2
+				| PONTO IDENT lvalue3
 				| /* epsilon */;
 
-alocexpression 	: NEW IDENT ABRPAR arglist FECHPAR
-				| NEW intstringident alocexpression2;
+lvalue3 		:  ABRPAR arglist FECHPAR lvalue2 
+				| /* epsilon */;
 
-alocexpression2 : ABRCOL expression FECHCOL alocexpression2
-				| ABRCOL expression FECHCOL;
+alocexpression 	: NEW alocexpression3;
 
-expression 		: numexpression
-				| numexpression expression2 numexpression;
+alocexpression2 : ABRCOL expression FECHCOL alocexpression4;
+
+alocexpression3 : IDENT alocexpression5 
+				| INT alocexpression2 
+				| STRING alocexpression2;
+
+alocexpression4 : alocexpression2 
+				| /* epsilon */;
+
+alocexpression5: ABRPAR arglist FECHPAR |alocexpression2;
+
+expression 		: numexpression expresion3;
 
 expression2 	: MENOR
 				| MAIOR
@@ -120,6 +139,8 @@ expression2 	: MENOR
 				| MAIORIG
 				| IGUAL
 				| DIFER;
+
+expresion3 		: expression2 numexpression | /* epsilon */;
 
 numexpression 	: term numexpression2;
 
