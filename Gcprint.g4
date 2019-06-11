@@ -51,7 +51,7 @@ paramlistaux 	: VIRG intstringident IDENT cols paramlistaux
 
 statement 		: intstring IDENT cols virgidentcols PTVIR
 				| IDENT statement2
-				| printstat
+				| printstat PTVIR
 				| readstat PTVIR
 				| returnstat PTVIR
 				| ifstat
