@@ -1,4 +1,5 @@
 
+
 public class OcorrenciaLexema {
 	private int linha, coluna;
 	

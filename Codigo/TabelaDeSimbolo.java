@@ -1,5 +1,7 @@
+
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.Vocabulary;
@@ -10,29 +12,32 @@ public class TabelaDeSimbolo {
 	private HashMap<String, TokenLexico> conjuntoDeToken;
 	private HashMap<String, TokenLexico> conjuntoDeTokenPorLexema;
 	
-	private int lengthDoMaiorToken, lengthDoMaiorLexema;
-	
-	public TabelaDeSimbolo(Vocabulary vocabularioAntlr) {
+	public TabelaDeSimbolo(Vocabulary vocabularioAntlr, List<Token> listaDeTokens) {
 		this.conjuntoDeToken = new HashMap<String, TokenLexico>();
 		this.conjuntoDeTokenPorLexema = new HashMap<String, TokenLexico>();
 		
 		this.vocabularioAntlr = vocabularioAntlr;
 		
-		this.lengthDoMaiorToken = 0;
-		this.lengthDoMaiorLexema = 0;
+		this.setListaDeTokens(listaDeTokens);
+	}
+	private void setListaDeTokens(List<Token> listaDeTokens) {
+		for (int c = 0; c < listaDeTokens.size(); c++) {
+			Token token = listaDeTokens.get(c);
+			
+			if (token.getText() != "<EOF>") {
+				this.addLexema(token);
+			}
+		}
 	}
 	
+	public void setTipoDoLexema(String nomeDoLexema, String tipoDoLexema) {
+		Lexema lexema = this.getLexema(nomeDoLexema);
+		lexema.setTipo(tipoDoLexema);
+	}
 	public void addLexema(Token tokenAntlr) {
 		String nomeDoToken, nomeDoLexema;
 		nomeDoLexema = tokenAntlr.getText();
-		nomeDoToken = vocabularioAntlr.getSymbolicName(tokenAntlr.getType());
-		
-		if (nomeDoToken.length() > lengthDoMaiorToken) {
-			lengthDoMaiorToken = nomeDoToken.length();
-		}
-		if (nomeDoLexema.length() > lengthDoMaiorLexema) {
-			lengthDoMaiorLexema = nomeDoLexema.length();
-		}
+		nomeDoToken = this.vocabularioAntlr.getSymbolicName(tokenAntlr.getType());
 		
 		TokenLexico tokenLexico;
 		tokenLexico = this.conjuntoDeToken.get(nomeDoToken);
@@ -59,24 +64,121 @@ public class TabelaDeSimbolo {
 		return this.conjuntoDeTokenPorLexema.get(nomeDoLexema).getLexema(nomeDoLexema);
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public String getToString() {
-		String espacoVazioToken, espacoVazioLexema;
-		espacoVazioLexema = "";
-		espacoVazioToken = "";
+		int lengthDoMaiorToken, lengthDoMaiorLexema, lengthDoMaiorTipoDoLexema;
+		lengthDoMaiorToken = 0;
+		lengthDoMaiorLexema = 0;
+		lengthDoMaiorTipoDoLexema = 0;
 		
-		for (int c = 0; c < this.lengthDoMaiorLexema; c++) {
-			espacoVazioLexema += " ";
-		}
-		for (int c = 0; c < this.lengthDoMaiorToken; c++) {
-			espacoVazioToken += " ";
-		}
+		String nomeDoToken, nomeDoLexema, tipoDoLexema;
 		
 		Iterator<TokenLexico> iteratorDoConjuntoDeToken;
 		iteratorDoConjuntoDeToken = this.getIterator();
 		
-		String nomeDoToken, nomeDoLexema;
+		while (iteratorDoConjuntoDeToken.hasNext()) {
+			TokenLexico tokenLexico;
+			tokenLexico = iteratorDoConjuntoDeToken.next();
+			nomeDoToken = tokenLexico.getNome();
+			
+			if (nomeDoToken.length() > lengthDoMaiorToken) {
+				lengthDoMaiorToken = nomeDoToken.length();
+			}
+			
+			Iterator<Lexema> iteratorDoConjuntoDeLexema;
+			iteratorDoConjuntoDeLexema = tokenLexico.getIterator();
+			
+			while (iteratorDoConjuntoDeLexema.hasNext()) {
+				Lexema lexema;
+				lexema = iteratorDoConjuntoDeLexema.next();
+				nomeDoLexema = lexema.getNome();
+				tipoDoLexema = lexema.getTipo();
+				
+				if (nomeDoLexema.length() > lengthDoMaiorLexema) {
+					lengthDoMaiorLexema = nomeDoLexema.length();
+				}
+				
+				if (tipoDoLexema.length() > lengthDoMaiorTipoDoLexema) {
+					lengthDoMaiorTipoDoLexema = tipoDoLexema.length();
+				}
+			}
+		}
+		
+		iteratorDoConjuntoDeToken = this.getIterator();
+		
 		nomeDoToken = "TOKENS";
 		nomeDoLexema = "LEXEMAS";
+		tipoDoLexema = "TIPO";
+		
+		if (nomeDoToken.length() > lengthDoMaiorToken) {
+			lengthDoMaiorToken = nomeDoToken.length();
+		}
+		if (nomeDoLexema.length() > lengthDoMaiorLexema) {
+			lengthDoMaiorLexema = nomeDoLexema.length();
+		}
+		if (tipoDoLexema.length() > lengthDoMaiorTipoDoLexema) {
+			lengthDoMaiorTipoDoLexema = tipoDoLexema.length();
+		}
+		
+		String espacoVazioToken, espacoVazioLexema, espacoVazioTipoDoLexema;
+		espacoVazioLexema = "";
+		espacoVazioToken = "";
+		espacoVazioTipoDoLexema = "";
+		
+		for (int c = 0; c < lengthDoMaiorLexema; c++) {
+			espacoVazioLexema += " ";
+		}
+		for (int c = 0; c < lengthDoMaiorToken; c++) {
+			espacoVazioToken += " ";
+		}
+		for (int c = 0; c < lengthDoMaiorTipoDoLexema; c++) {
+			espacoVazioTipoDoLexema += " ";
+		}
 		
 		String print;
 		print = nomeDoToken;
@@ -84,6 +186,9 @@ public class TabelaDeSimbolo {
 		print += " | ";
 		print += nomeDoLexema;
 		print += espacoVazioLexema.substring(nomeDoLexema.length());
+		print += " | ";
+		print += tipoDoLexema;
+		print += espacoVazioTipoDoLexema.substring(tipoDoLexema.length());
 		print += " | ";
 		print += "OCORRENCIAS (linha:coluna)";
 		print += "\n";
@@ -100,6 +205,7 @@ public class TabelaDeSimbolo {
 				Lexema lexema;
 				lexema = iteratorDoConjuntoDeLexema.next();
 				nomeDoLexema = lexema.getNome();
+				tipoDoLexema = lexema.getTipo();
 				
 				Iterator<OcorrenciaLexema> iteratorDoConjuntoDeOcorrencia;
 				iteratorDoConjuntoDeOcorrencia = lexema.getIterator();
@@ -113,6 +219,9 @@ public class TabelaDeSimbolo {
 					print += " | ";
 					print += nomeDoLexema;
 					print += espacoVazioLexema.substring(nomeDoLexema.length());
+					print += " | ";
+					print += tipoDoLexema;
+					print += espacoVazioTipoDoLexema.substring(tipoDoLexema.length());
 					print += " | ";
 					print += ocorrenciaDeLexema.getLinha()+":"+ocorrenciaDeLexema.getColuna();
 					print += "\n";

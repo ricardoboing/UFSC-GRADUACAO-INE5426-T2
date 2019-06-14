@@ -108,7 +108,6 @@ statlist 		: statement statlist1;
 statlist1 		: statlist 
 				| /* epsilon */;
 
-
 lvalue 			: IDENT lvalue2;
 
 lvalue2 		: ABRCOL expression FECHCOL

@@ -1,20 +1,30 @@
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class Lexema {
 	private String nome;
+	private String tipo;
 	private List<OcorrenciaLexema> ocorrencias;
 	
 	public Lexema(String nome) {
 		this.nome = nome;
+		this.tipo = "";
 		this.ocorrencias = new ArrayList<OcorrenciaLexema>();
-	}
-	public String getNome() {
-		return this.nome;
 	}
 	public void addOcorrencia(int linha, int coluna) {
 		this.ocorrencias.add( new OcorrenciaLexema(linha, coluna) );
+	}
+	
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	public String getTipo() {
+		return this.tipo;
+	}
+	public String getNome() {
+		return this.nome;
 	}
 	
 	public void print() {
