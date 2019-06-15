@@ -64,7 +64,7 @@ first(alocexpression4) = {ABRCOL, ε}
 first(alocexpression5) = {ABRPAR, ABRCOL}
 first(expression2) = {MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER}
 first(expresion3) = {MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, ε}
-first(numexpression1) = {OPMAIS, OPMENOS, ε}
+first(numexpression2) = {OPMAIS, OPMENOS, ε}
 first(term1) = {OPVEZES, OPDIV, OPMOD, ε}
 first(factor) = {INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR}
 first(arglist1) = {VIRG, ε}
@@ -149,7 +149,7 @@ follow(lvalue2) =
 follow(lvalue3) = 
 follow(alocexpression4) = 
 follow(expresion3) = 
-follow(numexpression1) = 
+follow(numexpression2) = 
 follow(term1) = 
 follow(arglist1) = 
 follow(classbody1) = 
@@ -188,70 +188,60 @@ first(A, B) : A->B
 
 
 follow(program) = {EOF}
-follow(classlist) = follow(program), follow(classlist2), first(classbody1 classbody2 classbody3 FECHCHAVE)
-follow(classdecl) = first(classlist2, epsilon=follow(classlist)),
-follow(classlist2) = follow(classlist)
-follow(classdecl2) = follow(classdecl) 
-follow(classbody) = {EXTENDS}, follow(classbody)
-follow(classbody1) = first(classbody2 classbody3 FECHCHAVE)
-follow(classbody2) = first(classbody3 FECHCHAVE)
+follow(classlist) = {EOF, INT, STRING, IDENT, CONSTRUCTOR, FECHCHAVE}
+follow(classdecl) = {CLASS, EOF, INT, STRING, IDENT, CONSTRUCTOR, FECHCHAVE}
+follow(classlist2) = {EOF, INT, STRING, IDENT, CONSTRUCTOR, FECHCHAVE}
+follow(classdecl2) = {CLASS, EOF, INT, STRING, IDENT, CONSTRUCTOR, FECHCHAVE}
+follow(classbody) = {EXTENDS}
+follow(classbody1) = {CONSTRUCTOR, INT, STRING, IDENT, FECHCHAVE}
+follow(classbody2) = {INT, STRING, IDENT, FECHCHAVE}
 folllow(classbody3) = {FECHCHAVE}
 follow(vardecl) = {PTVIR}
-follow(constructdecl) = first(classbody2; epsilon=follow(classbody2)
-follow(methoddecl) = first(classbody3, epsilon=follow(classbody3))
-follow(intstringident) = {IDENT}, first(cols IDENT methodbody)
-follow(cols) = first(vardecl1, epsilon=follow(vardecl)), first(vardecl1, epsilon=follow(vardecl1)), {IDENT}, first(paramlist1, epsilon=follow(paramlist)), first(paramlist1, epsilon=follow(paramlist1)), first(virgidentcols PTVIR), first(virgidentcols, epsilon=follow(virgidentcols))
-
-follow(vardecl1) = follow(vardecl1)
-follow(methodbody) = follow(constructdecl), follow(methoddecl)
+follow(constructdecl) = {CONSTRUCTOR, INT, STRING, IDENT, FECHCHAVE}
+follow(methoddecl) = {INT, STRING, IDENT, FECHCHAVE}
+follow(intstringident) = {IDENT, ABRCOL} 
+follow(vardecl1) = {PTVIR}
+follow(methodbody) = {CONSTRUCTOR, INT, STRING, IDENT, FECHCHAVE}
 follow(paramlist) = {FECHPAR}
-follow(statement) = follow(methodbody), first(ifstat1, epsilon=follow(ifstat)), follow(ifstat1), follow(forstat2), first(statlist1, epsilon=follow(statlist))
-follow(paramlist1) = follow(paramlist)
+follow(paramlist1) = {FECHPAR}
 follow(virgidentcols) = {PTVIR}
-follow(statement2) = follow(statement)
 follow(printstat) = {PTVIR}
 follow(readstat) = {PTVIR}
 follow(returnstat) = {PTVIR}
-follow(ifstat) = follow(statement)
-follow(forstat) = follow(statement)
-follow(statlist) = {FECHCHAVE}, follow(statlist1)
 follow(statement3) = {ATR}
-follow(expralocexpr) = {PTVIR}, follow(atribstat)
-follow(expression) = {FECHCOL, FECHPAR, PTVIR}, follow(expralocexpr), follow(printstat), follow(returnstat1), first(arglist1, epsilon=follow(arglist), first(arglist1, epsilon=follow(arglist1)
 follow(arglist) = {FECHCOL, FECHPAR}
-follow(alocexpression) = follow(expralocexpr)
-follow(lvalue) = {ATR}, follow(readstat), follow(factor)
-follow(returnstat1) = follow(returnstat)
-follow(ifstat1) = follow(ifstat)
+follow(returnstat1) = {PTVIR}
 follow(forstat1) = {PTVIR, FECHPAR}
-follow(forstat2) = follow(forstat)
-follow(atribstat) = follow(atribstat1)
-follow(statlist1) = follow(statlist)
-follow(lvalue2) = follow(lvalue), follow(lvalue3)
-follow(lvalue3) = follow(lvalue2)
-follow(alocexpression3) = follow(alocexpression)
-follow(alocexpression4) = follow(alocexpression2)
-follow(alocexpression5) = follow(alocexpression3)
-follow(alocexpression2) = follow(alocexpression3), follow(alocexpression4), follow(alocexpression5)
-follow(numexpression) = first(expresion3, epsilon=follow(expresion)), follow(expression3)
-follow(expresion3) = follow(expresion)
-follow(expression2) = first(numexpression, epsilon=follow(expression3))
-follow(term) = first(numexpression2, epsilon=follow(numexpression)), first(numexpression2, epsilon=follow(numexpression2))
-follow(numexpression2) = follow(numexpression)
-follow(unaryexpr) = first(term1, epsilon=follow(term)), first(term1, epsilon=follow(term1))
-follow(term1) = follow(term)
-follow(factor) = follow(unaryexpr)
-follow(arglist1) = follow(arglist)
-
-
-
-
-
-
-
-
-
-
+follow(atribstat) = {PTVIR, FECHPAR}
+follow(expralocexpr) = {PTVIR, FECHPAR}
+follow(alocexpression) = {PTVIR, FECHPAR}
+follow(statlist1) = {FECHCHAVE}
+follow(statlist) = {FECHCHAVE}
+follow(alocexpression3) = {PTVIR, FECHPAR}
+follow(alocexpression5) = {PTVIR, FECHPAR}
+follow(alocexpression2) = {PTVIR, FECHPAR}
+follow(alocexpression4) = {PTVIR, FECHPAR}
+follow(expression2) = {OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR}
+follow(arglist1) = {FECHCOL, FECHPAR}
+follow(cols) = {VIRG, IDENT, PTVIR, FECHPAR}
+follow(expression) = {FECHCOL, FECHPAR, PTVIR, VIRG}
+follow(forstat) =  {CONSTRUCTOR, INT, STRING, IDENT, FECHCHAVE, ELSE, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR}
+follow(forstat2) =  {CONSTRUCTOR, INT, STRING, IDENT, FECHCHAVE, ELSE, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR}
+follow(ifstat1) = {CONSTRUCTOR, INT, STRING, IDENT, FECHCHAVE, ELSE, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR}
+follow(statement) =  {CONSTRUCTOR, INT, STRING, IDENT, FECHCHAVE, ELSE, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR}
+follow(statement2) = {CONSTRUCTOR, INT, STRING, IDENT, FECHCHAVE, ELSE, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR}
+follow(forstat) = {CONSTRUCTOR, INT, STRING, IDENT, FECHCHAVE, ELSE, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR}
+follow(ifstat) = {CONSTRUCTOR, INT, STRING, IDENT, FECHCHAVE, ELSE, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR}
+follow(lvalue) = {ATR, PTVIR, OPVEZES, OPDIV, OPMOD, OPMAIS, OPMENOS, MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, VIRG} 
+follow(lvalue2) = {ATR, PTVIR, OPVEZES, OPDIV, OPMOD, OPMAIS, OPMENOS, MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, VIRG} 
+follow(lvalue3) = {ATR, PTVIR, OPVEZES, OPDIV, OPMOD, OPMAIS, OPMENOS, MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, VIRG} 
+follow(numexpression) = {MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, PTVIR, VIRG}
+follow(numexpression2) = {MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, PTVIR, VIRG}
+follow(expression3) = {FECHCOL, FECHPAR, PTVIR, VIRG, MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER}
+follow(term) = {OPMAIS, OPMENOS, MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, PTVIR, VIRG}
+follow(term1) = {OPMAIS, OPMENOS, MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, PTVIR, VIRG}
+follow(unaryexpr) = {OPVEZES, OPDIV, OPMOD, OPMAIS, OPMENOS, MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, PTVIR, VIRG}
+follow(factor) = {OPVEZES, OPDIV, OPMOD, OPMAIS, OPMENOS, MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, PTVIR, VIRG}
 
 
 
