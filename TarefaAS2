@@ -98,7 +98,7 @@ Agora, verificamos as condições 1.2.1, 1.2.2 e 1.2.3 para todas as produções
 Como podemos ver nos conjuntos first computados acima, não existem itens repetidos em nenhum first(A), portanto, esta condição é cumprida.
 
 1.2.2: α → ε ou β → ε, mas não ambos
-Esta condição também é cumprida pelo mesmo motivo da condição 1.2.1: Cada conjunto first(A) somente tem epsilon uma vez.
+Esta condição também é cumprida pelo mesmo motivo da condição 1.2.1: Cada conjunto first(A) somente contem epsilon uma vez.
 
 1.2.3 se α ⇒* ε ou β ⇒* ε, então first(A) ∩ follow(A) = φ
 
@@ -200,146 +200,48 @@ follow(vardecl) = {PTVIR}
 follow(constructdecl) = first(classbody2; epsilon=follow(classbody2)
 follow(methoddecl) = first(classbody3, epsilon=follow(classbody3))
 follow(intstringident) = {IDENT}, first(cols IDENT methodbody)
-follow(cols) = first(vardecl1, epsilon=follow(vardecl)), first(vardecl1, epsilon=follow(vardecl1)), {IDENT}
+follow(cols) = first(vardecl1, epsilon=follow(vardecl)), first(vardecl1, epsilon=follow(vardecl1)), {IDENT}, first(paramlist1, epsilon=follow(paramlist)), first(paramlist1, epsilon=follow(paramlist1)), first(virgidentcols PTVIR), first(virgidentcols, epsilon=follow(virgidentcols))
+
 follow(vardecl1) = follow(vardecl1)
 follow(methodbody) = follow(constructdecl), follow(methoddecl)
 follow(paramlist) = {FECHPAR}
-follow(statement) = follow(methodbody)
-
-
-
-
-
-
-paramlist 		: intstringident IDENT cols paramlist1
-				| /* epsilon */;
-
-paramlist1 		: VIRG intstringident IDENT cols paramlist1
-				| /* epsilon */;
-
-statement 		: intstring IDENT cols virgidentcols PTVIR
-				| IDENT statement2
-				| printstat PTVIR
-				| readstat PTVIR
-				| returnstat PTVIR
-				| ifstat
-				| forstat
-				| ABRCHAVE statlist FECHCHAVE
-				| BREAK PTVIR
-				| PTVIR;
-
-intstring 		: INT
-				| STRING;
-
-virgidentcols 	: VIRG IDENT cols virgidentcols
-				| /* epsilon */;
-
-statement2 		: IDENT cols virgidentcols PTVIR
-				| statement3 ATR expralocexpr PTVIR;
-
-statement3		: ABRCOL expression FECHCOL statement3
-				| PONTO IDENT ABRPAR arglist FECHPAR statement3
-				| PONTO IDENT statement3
-				| /* epsilon */;
-
-expralocexpr	: expression
-				| alocexpression;
-
-atribstat 		: lvalue ATR expralocexpr;
-printstat 		: PRINT expression;
-readstat 		: READ lvalue;
-
-returnstat 		: RETURN returnstat1; 
-
-returnstat1 	: expression
-				| /* epsilon */;
-
-superstat 		: SUPER ABRPAR arglist FECHPAR;
-
-ifstat 			: IF ABRPAR expression FECHPAR THEN statement ifstat1;
-				
-ifstat1			: ELSE statement 
-				| /* epsilon */;
-
-forstat 		: FOR ABRPAR forstat1 PTVIR forstat2;
-
-forstat1 		: atribstat
-				| /* epsilon */;
-
-forstat2 		: PTVIR forstat1 FECHPAR statement 
-				| expression PTVIR forstat1 FECHPAR statement;
-
-statlist 		: statement statlist1;
-
-statlist1 		: statlist 
-				| /* epsilon */;
-
-
-lvalue 			: IDENT lvalue2;
-
-lvalue2 		: ABRCOL expression FECHCOL
-				| PONTO IDENT lvalue3
-				| /* epsilon */;
-
-lvalue3 		:  ABRPAR arglist FECHPAR lvalue2 
-				| /* epsilon */;
-
-alocexpression 	: NEW alocexpression3;
-
-alocexpression2 : ABRCOL expression FECHCOL alocexpression4;
-
-alocexpression3 : IDENT alocexpression5 
-				| INT alocexpression2 
-				| STRING alocexpression2;
-
-alocexpression4 : alocexpression2 
-				| /* epsilon */;
-
-alocexpression5: ABRPAR arglist FECHPAR |alocexpression2;
-
-expression 		: numexpression expresion3;
-
-expression2 	: MENOR
-				| MAIOR
-				| MENORIG
-				| MAIORIG
-				| IGUAL
-				| DIFER;
-
-expresion3 		: expression2 numexpression | /* epsilon */;
-
-numexpression 	: term numexpression2;
-
-numexpression2 	: OPMAIS term numexpression2
-				| OPMENOS term numexpression2
-				| /* epsilon */;
-
-term 			: unaryexpr term1;
-
-term1 			: OPVEZES unaryexpr term1
-				| OPDIV unaryexpr term1
-				| OPMOD unaryexpr term1
-				| /* epsilon */;
-
-unaryexpr 		: OPMAIS factor
-				| OPMENOS factor
-				| factor;
-
-factor 			: INTCONSTANT
-				| STRINGCONSTANT
-				| NULL
-				| lvalue
-				| ABRPAR expression FECHPAR;
-
-arglist 		: expression arglist1
-				| /* epsilon */;
-
-arglist1 		: VIRG expression arglist1
-				| /* epsilon */;
-
-
-
-
+follow(statement) = follow(methodbody), first(ifstat1, epsilon=follow(ifstat)), follow(ifstat1), follow(forstat2), first(statlist1, epsilon=follow(statlist))
+follow(paramlist1) = follow(paramlist)
+follow(virgidentcols) = {PTVIR}
+follow(statement2) = follow(statement)
+follow(printstat) = {PTVIR}
+follow(readstat) = {PTVIR}
+follow(returnstat) = {PTVIR}
+follow(ifstat) = follow(statement)
+follow(forstat) = follow(statement)
+follow(statlist) = {FECHCHAVE}, follow(statlist1)
+follow(statement3) = {ATR}
+follow(expralocexpr) = {PTVIR}, follow(atribstat)
+follow(expression) = {FECHCOL, FECHPAR, PTVIR}, follow(expralocexpr), follow(printstat), follow(returnstat1), first(arglist1, epsilon=follow(arglist), first(arglist1, epsilon=follow(arglist1)
+follow(arglist) = {FECHCOL, FECHPAR}
+follow(alocexpression) = follow(expralocexpr)
+follow(lvalue) = {ATR}, follow(readstat), follow(factor)
+follow(returnstat1) = follow(returnstat)
+follow(ifstat1) = follow(ifstat)
+follow(forstat1) = {PTVIR, FECHPAR}
+follow(forstat2) = follow(forstat)
+follow(atribstat) = follow(atribstat1)
+follow(statlist1) = follow(statlist)
+follow(lvalue2) = follow(lvalue), follow(lvalue3)
+follow(lvalue3) = follow(lvalue2)
+follow(alocexpression3) = follow(alocexpression)
+follow(alocexpression4) = follow(alocexpression2)
+follow(alocexpression5) = follow(alocexpression3)
+follow(alocexpression2) = follow(alocexpression3), follow(alocexpression4), follow(alocexpression5)
+follow(numexpression) = first(expresion3, epsilon=follow(expresion)), follow(expression3)
+follow(expresion3) = follow(expresion)
+follow(expression2) = first(numexpression, epsilon=follow(expression3))
+follow(term) = first(numexpression2, epsilon=follow(numexpression)), first(numexpression2, epsilon=follow(numexpression2))
+follow(numexpression2) = follow(numexpression)
+follow(unaryexpr) = first(term1, epsilon=follow(term)), first(term1, epsilon=follow(term1))
+follow(term1) = follow(term)
+follow(factor) = follow(unaryexpr)
+follow(arglist1) = follow(arglist)
 
 
 
@@ -373,4 +275,3 @@ pode testar com a tabela, desde que seja livre rec À esquerda e fatorada à esq
 
  
 1.3. construa um analisador sintático para LL1X++:
-
