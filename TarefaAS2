@@ -63,7 +63,7 @@ first(alocexpression3) = {IDENT, INT, STRING}
 first(alocexpression4) = {ABRCOL, ε}
 first(alocexpression5) = {ABRPAR, ABRCOL}
 first(expression2) = {MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER}
-first(expresion3) = {MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, ε}
+first(expression3) = {MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, ε}
 first(numexpression2) = {OPMAIS, OPMENOS, ε}
 first(term1) = {OPVEZES, OPDIV, OPMOD, ε}
 first(factor) = {INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR}
@@ -73,7 +73,6 @@ first(classbody1) = {INT, STRING, IDENT, ε}
 first(classbody2) = {CONSTRUCTOR, ε}
 first(classbody3) = {INT, STRING, IDENT, ε}
 first(statement) = {INT, STRING, IDENT, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR}
-first(statement4) = {ABRPAR, ABRCOL, PONTO, ε}
 first(atribstat) = {IDENT}
 first(forstat1) = {IDENT, ε}
 first(statlist) = {INT, STRING, IDENT, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR}
@@ -101,91 +100,7 @@ Como podemos ver nos conjuntos first computados acima, não existem itens repeti
 Esta condição também é cumprida pelo mesmo motivo da condição 1.2.1: Cada conjunto first(A) somente contem epsilon uma vez.
 
 1.2.3 se α ⇒* ε ou β ⇒* ε, então first(A) ∩ follow(A) = φ
-
-Computamos os conjuntos follow para os terminais onde ε ∈ first(A), isto é, A ⇒* ε:
-
-
-
-
-
-
-
-1) FOLLOW(S) = { $ }   // where S is the starting Non-Terminal
-
-2) If A -> pBq is a production, where p, B and q are any grammar symbols,
-   then everything in FIRST(q)  except ? is in FOLLOW(B.
-
-3) If A->pB is a production, then everything in FOLLOW(A) is in FOLLOW(B).
-
-4) If A->pBq is a production and FIRST(q) contains ?, 
-   then FOLLOW(B) contains { FIRST(q) – ? } U FOLLOW(A) 
-
-
-
-
-
-
-
-
-
-follow(cols) 	= first(vardecl1) ∪ first(IDENT) ∪ first(paramlist1) ∪ first(virgidentcols)
-			 	=  {VIRG} ∪ follow(vardecl) ∪ follow(vardecl1) ∪ {IDENT} ∪ {VIRG} ∪ follow(paramlist) ∪ follow(paramlist1) ∪ {VIRG} ∪ {PTVIR} ∪ follow(virgidentcols)
-
-
-
-
-
-
-
-
-
-follow(vardecl1) = 
-follow(paramlist) =  
-follow(paramlist1) = 
-follow(virgidentcols) = 
-follow(statement2) = 
-follow(ifstat1) = 
-follow(lvalue2) = 
-follow(lvalue3) = 
-follow(alocexpression4) = 
-follow(expresion3) = 
-follow(numexpression2) = 
-follow(term1) = 
-follow(arglist1) = 
-follow(classbody1) = 
-follow(classbody2) = 
-follow(classbody3) = 
-follow(statement4) = 
-follow(forstat1) = 
-follow(statlist1) = 
-follow(classlist2) = 
-follow(program) = 
-follow(arglist) = 
-follow(returnstat1) = 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-first(A, B) : A->B
-
-
+Computamos os conjuntos follow para todos os não terminais da gramática:
 
 follow(program) = {EOF}
 follow(classlist) = {EOF, INT, STRING, IDENT, CONSTRUCTOR, FECHCHAVE}
@@ -193,7 +108,7 @@ follow(classdecl) = {CLASS, EOF, INT, STRING, IDENT, CONSTRUCTOR, FECHCHAVE}
 follow(classlist2) = {EOF, INT, STRING, IDENT, CONSTRUCTOR, FECHCHAVE}
 follow(classdecl2) = {CLASS, EOF, INT, STRING, IDENT, CONSTRUCTOR, FECHCHAVE}
 follow(classbody) = {EXTENDS}
-follow(classbody1) = {CONSTRUCTOR, INT, STRING, IDENT, FECHCHAVE}
+follow(classbody1) = {CONSTRUCTOR, FECHCHAVE}
 follow(classbody2) = {INT, STRING, IDENT, FECHCHAVE}
 folllow(classbody3) = {FECHCHAVE}
 follow(vardecl) = {PTVIR}
@@ -237,31 +152,41 @@ follow(lvalue2) = {ATR, PTVIR, OPVEZES, OPDIV, OPMOD, OPMAIS, OPMENOS, MENOR, MA
 follow(lvalue3) = {ATR, PTVIR, OPVEZES, OPDIV, OPMOD, OPMAIS, OPMENOS, MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, VIRG} 
 follow(numexpression) = {MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, PTVIR, VIRG}
 follow(numexpression2) = {MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, PTVIR, VIRG}
-follow(expression3) = {FECHCOL, FECHPAR, PTVIR, VIRG, MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER}
+follow(expression3) = {FECHCOL, FECHPAR, PTVIR, VIRG}
 follow(term) = {OPMAIS, OPMENOS, MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, PTVIR, VIRG}
 follow(term1) = {OPMAIS, OPMENOS, MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, PTVIR, VIRG}
 follow(unaryexpr) = {OPVEZES, OPDIV, OPMOD, OPMAIS, OPMENOS, MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, PTVIR, VIRG}
 follow(factor) = {OPVEZES, OPDIV, OPMOD, OPMAIS, OPMENOS, MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, PTVIR, VIRG}
 
-
-
-
-
-
-
-
-
-
 Sendo EOF o símbolo que indica o final do programa.
 
-Agora, verificamos as condições 1.2.1, 1.2.2 e 1.2.3 para todas as produções da gramática:
 
-1.2.1: first(α) ∩ first(β) = φ:
+Agora, verificamos se first(A) ∩ follow(A) = φ, para os não terminais onde ε ∈ first(A), isto é, A ⇒* ε:
 
+first(cols) ∩ follow(cols) = {ABRCOL, ε} ∩  {VIRG, IDENT, PTVIR, FECHPAR} = φ
+first(vardecl1) ∩ follow(vardecl1) = {VIRG, ε} ∩ {PTVIR} = φ
+first(paramlist) ∩ follow(paramlist) = {INT, STRING, IDENT, ε} ∩ {FECHPAR} = φ
+first(paramlist1) ∩ follow(paramlist1) = {VIRG, ε} ∩ {FECHPAR} = φ
+first(virgidentcols) ∩ follow(virgidentcols) = {VIRG, ε} ∩ {PTVIR} = φ
+first(statement2) ∩ follow(statement2) = {ABRCOL, PONTO, ε} ∩ {CONSTRUCTOR, INT, STRING, IDENT, FECHCHAVE, ELSE, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR} = φ
+first(ifstat1) ∩ follow(ifstat1) = {ELSE, ε} ∩ {CONSTRUCTOR, INT, STRING, IDENT, FECHCHAVE, ELSE, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR} = φ
+first(lvalue2) ∩ follow(lvalue2) = {ABRCOL, PONTO, ε} ∩ {ATR, PTVIR, OPVEZES, OPDIV, OPMOD, OPMAIS, OPMENOS, MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, VIRG} = φ
+first(lvalue3) ∩ follow(lvalue3) = {ABRPAR, ε} ∩ {ATR, PTVIR, OPVEZES, OPDIV, OPMOD, OPMAIS, OPMENOS, MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, VIRG} = φ
+first(alocexpression4) ∩ follow(alocexpression4) = {ABRCOL, ε} ∩ {PTVIR, FECHPAR} = φ
+first(expression3) ∩ follow(expression3) = {MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, ε} ∩ {FECHCOL, FECHPAR, PTVIR, VIRG} = φ
+first(numexpression2) ∩ follow(numexpression2) = {OPMAIS, OPMENOS, ε} ∩ {MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, PTVIR, VIRG} = φ
+first(term1) ∩ follow(term1) =  {OPVEZES, OPDIV, OPMOD, ε} ∩ {OPMAIS, OPMENOS, MENOR, MAIOR, MENORIG, MAIORIG, IGUAL, DIFER, FECHCOL, FECHPAR, PTVIR, VIRG} = φ
+first(arglist1) ∩ follow(arglist1) =   {VIRG, ε} ∩ {FECHCOL, FECHPAR} = φ
+first(classbody1) ∩ follow(classbody1) = {INT, STRING, IDENT, ε} ∩ {CONSTRUCTOR, FECHCHAVE} = φ
+first(classbody2) ∩ follow(classbody2) = {CONSTRUCTOR, ε} ∩ {INT, STRING, IDENT, FECHCHAVE} = φ
+first(classbody3) ∩ follow(classbody3) = {INT, STRING, IDENT, ε} ∩ {FECHCHAVE} = φ
+first(forstat1) ∩ follow(forstat1) =  {IDENT, ε} ∩ {PTVIR, FECHPAR} = φ
+first(statlist1) ∩ follow(statlist1) = {INT, STRING, IDENT, PRINT, READ, RETURN, IF, FOR, ABRCHAVE, BREAK, PTVIR, ε} ∩ {FECHCHAVE} = φ
+first(classlist2) ∩ follow(classlist2) = {CLASS, ε} ∩ {EOF, INT, STRING, IDENT, CONSTRUCTOR, FECHCHAVE} = φ
+first(program) ∩ follow(program) = {CLASS, ε} ∩ {EOF} = φ
+first(arglist) ∩ follow(arglist) = {OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR, ε} ∩ {FECHCOL, FECHPAR} = φ
+first(returnstat1) ∩ follow(returnstat1) = {OPMAIS, OPMENOS, INTCONSTANT, STRINGCONSTANT, NULL, IDENT, ABRPAR, ε} ∩ {PTVIR} = φ
 
+Como podemos ver, em todos os casos a interseção é nula, portanto, a condição 1.2.3 é respeitada.
 
-pode testar com a tabela, desde que seja livre rec À esquerda e fatorada à esquerda
-
-
- 
-1.3. construa um analisador sintático para LL1X++:
+								QED
