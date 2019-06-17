@@ -1,0 +1,100 @@
+class constants{
+
+	int fib(int n) 
+	{ 
+	    if (n <= 1) then 
+	        return n;
+
+	    m = new fib(n-1);
+	    p = new fib(n-2);
+	    q = m+p;
+
+	    return q; 
+	} 
+
+	int numEuler(int num_termos)
+	{
+		int i;
+		int e;
+		e=0;
+		for(i=0; i<num_termos; i = i+1){
+			fact_i = new factorial(i);
+			e = e + 1/fact_i;
+		}
+	}
+
+	int factorial(int n)
+	{
+	    if (n < 0) then
+	        print "Erro, não é possível calcular fatorial de número negativo";
+
+	    else 
+	    {
+	    	int i;
+	    	int factorial;
+
+	        for(i=1; i<=n; i = i+1)
+	        {
+	            factorial = factorial * i;
+	        }
+
+	        print "fatorial de " + n + " é " + factorial;
+	    }
+
+    return 0;
+    }
+
+    int pi (int n)
+    {
+    	print "Computando pi pelo método de Nilakantha. Usar n>100 para ter uma boa precisão";
+
+    	int flag;
+    	flag = 1;
+    	int i;
+    	int pi;
+    	pi = 0;
+
+    	for(i=2; i<n; i = i+2)
+    	{
+    		if (par == 0 ) then
+    		{
+    			pi = pi + (4 / (i*(i+1)*(i+2)));
+    		
+    		} else {
+    			pi = pi - (4 / (i*(i+1)*(i+2)));
+    		
+    		}
+    		if (flag == 1) then
+    			flag = 0;
+    		else
+    			flag = 1;
+    	}
+    }
+
+	int main () { 
+
+		print "Esta classe gera as constantes e, pi, e números de fibonacci";
+
+		print "teste fibonacci";
+	    int n;
+	    n = 7;
+	    fib_n = new fib(n);
+	    print "o n-esimo numero de fibonacci é " + fib_n;  
+
+	    print "teste número de Euler";
+	    int e;
+	    int c;
+	    c = 20;
+	    e = new numEuler(c);
+	    print "O número e de Euler, com precisão de " + c + " termos, é " + e;
+
+	    print "teste pi";
+	    int pi;
+	    int c;
+	    pi = new pi(c);
+	    print "O número pi, com precisão de " + c + " termos, é " + pi;
+
+	    return 0; 
+	} 
+
+}
