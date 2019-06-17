@@ -1,0 +1,8 @@
+class classe {
+	int oi[2][2][4][8], l[1];
+	string eae[2], l;
+	
+	int kkk (int oi[1][2]) {
+		oi = eae*2 +1;
+	}
+}
