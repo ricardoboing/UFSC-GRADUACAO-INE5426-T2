@@ -14,8 +14,6 @@ create:
 	@javac -classpath $(_ANTLR) $(_FILES)
 	@rm *.tokens
 	@rm *.interp
-	@touch Xcc_Tabela_De_Simbolos.txt
-	@touch Xcc_Lista_De_Tokens.txt
 	@echo "Sucesso!"
 
 clean:
