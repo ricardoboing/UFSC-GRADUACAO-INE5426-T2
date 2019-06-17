@@ -71,7 +71,8 @@ class constants{
     	}
     }
 
-	int main () { 
+	int main () 
+	{ 
 
 		print "Esta classe gera as constantes e, pi, e números de fibonacci";
 
@@ -96,5 +97,4 @@ class constants{
 
 	    return 0; 
 	} 
-
 }
