@@ -1,7 +1,7 @@
 /**
  * Definicao da gramatica xpp
  */ 
-grammar Gcprint;
+grammar LL1Xcc;
 
 // producoes para o analisador sintático (parser):
 program 		: classlist
