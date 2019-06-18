@@ -1,0 +1,102 @@
+class sort_algorythm{
+
+	constructor()
+	{
+		int array[20];
+
+		array[0] = 73;
+		array[1] = 73;
+		array[2] = 97;
+		array[3] = 4;
+		array[4] = 30;
+		array[5] = 30;
+		array[6] = 21;
+		array[7] = 16;
+		array[8] = 29;
+		array[9] = 52;
+		array[10] = 38;
+		array[11] = 6;
+		array[12] = 99;
+		array[13] = 43;
+		array[14] = 49;
+		array[15] = 27;
+		array[16] = 30;
+		array[17] = 85;
+		array[18] = 46;
+		array[19] = 78;
+	}
+
+ 	int quicksort(int array [20], int low, int high)
+ 	{
+ 		print "Ordenando por quicksort";
+        int i, j, pivot;
+        i = low;
+        j = high;
+        
+        int position;
+        position = (low + high) / 2;
+        pivot = new array[position];
+
+        for (; i <= j ;)
+        {
+        	int number_i;
+        	number_i = new numbers[i];
+            for (; number_i < pivot ;)
+            {
+                i = i+1;
+            }
+            
+            int number_j;
+        	number_j = new numbers[j];
+            for (; number_j > pivot ;)
+            {
+                j = j -1;
+            }
+
+            if (i <= j) then
+            {
+            	int temp;
+            	temp = i;
+            	i = j;
+            	j = temp;
+
+                i = i+1;
+                j = j-1;
+            }
+        }
+
+        int aux;
+        if (low < j) then
+            aux = new quicksort(array, low, j);
+        if (i < high) then
+            aux = new quicksort(array, i, high);
+    return 0;
+    }
+
+	int bubbleSort(int array[20]) 
+    { 
+
+    	print "Ordenando por bubbleSort";
+        int n, i, j;
+        n = 20; 
+        for (i = 0; i < n-1; i=i+1)
+        {
+            for (j = 0; j < n-i-1; j=j+1) 
+            {
+            	int array_j, k, array_k;
+            	array_j = new array[j];
+            	k = j+1;
+            	array_k = new array[k];
+
+                if (array_j > array_k) then 
+                { 
+                    int temp;
+                    temp = array_j; 
+                    array_j = array_k; 
+                    array_k = temp; 
+                } 
+        	}
+    	}
+		return 0
+	}
+}
