@@ -11,3 +11,5 @@ sudo wget https://www.antlr.org/download/antlr-4.7.2-complete.jar</br>
 export CLASSPATH=".:/usr/local/lib/antlr-4.7.2-complete.jar:$CLASSPATH"</br>
 alias grun='java org.antlr.v4.gui.TestRig'</br>
 
+## 3. Relatório
+* O relatório está disponível no arquivo pdf anexado a esta entrega.
